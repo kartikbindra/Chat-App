@@ -1,0 +1,20 @@
+{
+  "name": "chatapp-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "chat.js",
+  "type": "module",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "codemon": "^0.1.31-development"
+  }
+}
