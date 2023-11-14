@@ -1,21 +1,59 @@
 const socket = io('ws://localhost:5500')
 
-function sendMessage(e){
-    e.preventDefault()
-    const input = document.querySelector('input')
-    if(input.value){
-        socket.emit('message', input.value)
+
+let username;
+
+do{
+    username = prompt("enter your name: ")
+}while(!username)
+
+let messagearea = document.querySelector('.messages')
+let input = document.querySelector('input')
+
+function sendMessage(input){
+    console.log('>>> input', input);
+    if(input){
+        let textmsg = {
+            user : username,
+            message: input
+        }
+        appendMessage(textmsg, 'sent')
         input.value = ""
+        scrollToBottom()
+
+        socket.emit('message', textmsg)
     }
 
-    input.focus()
 }
 
-document.querySelector('button').addEventListener('click', sendMessage)
-
-//listening 
-socket.on("message", (data) =>{
-    const li = document.createElement('li')
-    li.textContent = data
-    document.querySelector('ul').appendChild(li)
+document.querySelector('button').addEventListener('click', () => sendMessage(input.value))
+input.addEventListener('keyup', (e) => {
+    if(e.key === 'Enter') {
+        sendMessage(e.target.value)
+    }
 })
+
+//appending msg on the browser
+function appendMessage(textmsg, type){
+    const chat = document.createElement('div')
+    let className = type
+    chat.classList.add(className, 'text_message')
+    let markup = `
+    <h4>${textmsg.user}</h4>
+    <div>
+    <p>${textmsg.message}</p>
+    </div>
+    `
+    chat.innerHTML = markup
+    messagearea.appendChild(chat)
+}
+
+//receiving messages
+socket.on('message', (textmsg) =>{
+    appendMessage(textmsg, "received")
+    scrollToBottom()
+})
+
+function scrollToBottom() {
+    messagearea.scrollTop = messagearea.scrollHeight
+}
