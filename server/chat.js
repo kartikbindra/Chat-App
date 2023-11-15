@@ -2,7 +2,7 @@ import {createServer} from "http"
 import {Server} from "socket.io"
 
 const httpServer = createServer()
-
+const PORT = process.env.PORT || 5500
 const io = new Server(httpServer, {
     cors: {
         origin: ["http://localhost:5500", "http://127.0.0.1:5500"]
@@ -18,4 +18,4 @@ io.on('connection', socket => {
     })
 })
 
-httpServer.listen(5500, () => console.log("listening on port 5500"))
+httpServer.listen(PORT, () => console.log(`listening on port ${PORT}`))
