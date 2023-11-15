@@ -1,4 +1,4 @@
-const socket = io('http://localhost:5500')
+const socket = io('https://chatsapp-omega.vercel.app/')
 
 
 let username;
