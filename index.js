@@ -54,6 +54,19 @@ socket.on('message', (textmsg) =>{
     scrollToBottom()
 })
 
+socket.on('connect',() =>{
+    var params = jQuery.deparam(window.location.search);
+    socket.emit('join', params, function(err) {
+        if (err) {
+            alert(err);
+            window.location.href = '/';
+        }
+        else {
+            console.log('No Error');
+        }
+    });
+});
+
 function scrollToBottom() {
     messagearea.scrollTop = messagearea.scrollHeight
 }
